@@ -1,11 +1,10 @@
-export default function Button({ text, onClick, type = "button" }) {
+export default function Button({ label, className, ...props }) {
   return (
     <button
-      type={type}
-      onClick={onClick}
-      className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 font-semibold"
+      {...props}
+      className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition ${className}`}
     >
-      {text}
+      {label}
     </button>
   );
 }

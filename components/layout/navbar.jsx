@@ -1,11 +1,11 @@
 export default function Navbar() {
   return (
-    <nav className="h-16 bg-white shadow-md flex justify-between items-center px-6">
-      <h1 className="text-xl font-semibold text-gray-800 tracking-wide">LMS</h1>
+    <nav className="w-full bg-gray-800 text-white px-6 py-3 flex justify-between items-center">
+      <h1 className="text-lg font-semibold">LMS Platform</h1>
 
-      <div className="flex items-center gap-3">
-        <span className="text-gray-600">Welcome, User</span>
-        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
+      <div className="flex items-center gap-4">
+        <button className="hover:text-blue-300">Profile</button>
+        <button className="hover:text-blue-300">Logout</button>
       </div>
     </nav>
   );
