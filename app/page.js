@@ -2,62 +2,107 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-indigo-50 via-white to-rose-50 dark:from-[#050510] dark:via-[#071229] dark:to-[#071827] font-sans">
+      <main className="w-full max-w-4xl mx-auto px-6 py-24 sm:py-32">
+        <div className="bg-white/95 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800 rounded-3xl shadow-2xl backdrop-blur-md overflow-hidden">
+          <div className="p-10 sm:p-16">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg">
+                <span className="text-white font-semibold">L</span>
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-slate-700 dark:text-slate-200">
+                  LMS Platform
+                </h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Learn. Manage. Grow.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h1 className="text-3xl sm:text-4xl font-extrabold leading-tight text-slate-900 dark:text-white">
+                Build better learning experiences with LMS
+              </h1>
+              <p className="mt-4 max-w-2xl text-lg text-slate-600 dark:text-slate-300">
+                A simple, clean starting point for your learning platform. Manage
+                courses, track progress and onboard learners quickly — with an
+                accessible, modern UI.
+              </p>
+
+              {/* ✔ SIGN IN + SIGN UP BUTTONS ADDED HERE */}
+              <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                <a
+                  className="inline-flex items-center justify-center gap-3 rounded-full px-5 py-3 bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg hover:scale-[1.02] transition-transform"
+                  href="/signin"
+                >
+                  Sign In
+                </a>
+
+                <a
+                  className="inline-flex items-center justify-center rounded-full px-5 py-3 border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-white/5 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                  href="/signup"
+                >
+                  Sign Up
+                </a>
+              </div>
+
+              <div className="mt-6 text-sm text-slate-500 dark:text-slate-400 flex flex-wrap gap-3">
+                <span className="inline-flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-3 py-1 rounded-full text-xs">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 h-4 text-indigo-500"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 14l9-5-9-5-9 5 9 5z"
+                    />
+                  </svg>
+                  Templates
+                </span>
+
+                <a
+                  className="text-indigo-600 dark:text-indigo-300 font-medium hover:underline text-sm"
+                  href="/templates"
+                >
+                  Explore templates
+                </a>
+
+                <a
+                  className="text-indigo-600 dark:text-indigo-300 font-medium hover:underline text-sm"
+                  href="/learn"
+                >
+                  Learning center
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-8 grid grid-cols-3 gap-3">
+              <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-slate-800 dark:to-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+                <div className="text-xs text-slate-500 dark:text-slate-400">Courses</div>
+                <div className="text-xl font-semibold text-slate-900 dark:text-white">34</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-emerald-50 to-white dark:from-slate-800 dark:to-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+                <div className="text-xs text-slate-500 dark:text-slate-400">Students</div>
+                <div className="text-xl font-semibold text-slate-900 dark:text-white">520</div>
+              </div>
+
+              <div className="bg-gradient-to-br from-amber-50 to-white dark:from-slate-800 dark:to-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+                <div className="text-xs text-slate-500 dark:text-slate-400">Active</div>
+                <div className="text-xl font-semibold text-slate-900 dark:text-white">72%</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
+          Built with ❤️ — customize this starter to match your project's needs.
         </div>
       </main>
     </div>
