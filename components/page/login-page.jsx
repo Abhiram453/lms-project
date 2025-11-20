@@ -1,54 +1,111 @@
 "use client";
+import React, { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import InputField from '../global/input-field';
+import Button from '../global/button';
 
-export default function LoginPage() {
+const LoginPage = () => {
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!form.email || !form.password) {
+      toast.error('Email and password are required.');
+      return;
+    }
+
+    setIsLoading(true);
+    const loadingToast = toast.loading('Signing you in...', { duration: Infinity });
+
+    try {
+      const res = await signIn("credentials", { 
+        redirect: false, 
+        email: form.email,
+        password: form.password
+      });
+
+      if (res?.error) {
+        toast.dismiss(loadingToast);
+        toast.error("Invalid credentials. Please check your email and password.");
+        setIsLoading(false);
+        return;
+      }
+
+      if (res?.ok) {
+        toast.dismiss(loadingToast);
+        toast.success('Login successful! Redirecting...');
+
+        setTimeout(async () => {
+          const sessionRes = await fetch('/api/auth/session');
+          const session = await sessionRes.json();
+          const role = session?.user?.role;
+
+          if (role === 'admin') router.push('/admin_dashboard');
+          else router.push('/student_dashboard');
+        }, 100);
+      }
+
+    } catch (err) {
+      toast.dismiss(loadingToast);
+      toast.error("An unexpected error occurred. Please try again.");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 p-4">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-          Welcome Back 👋
-        </h2>
+    <div className="max-w-md mx-auto mt-16 bg-white">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md">
+        <h2 className="text-2xl text-black font-bold mb-6 text-center">Sign In</h2>
+        
+        <InputField
+          label="Email"
+          name="email"
+          type="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+          disabled={isLoading}
+          required
+        />
+        <InputField
+          label="Password"
+          name="password"
+          type="password"
+          value={form.password}
+          onChange={handleChange}
+          placeholder="Enter your password"
+          disabled={isLoading}
+          required
+        />
 
-        <form className="space-y-6">
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 
-              focus:ring-blue-500 focus:outline-none text-black placeholder-gray-400"
-            />
-          </div>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? 'Signing in...' : 'Sign In'}
+        </Button>
 
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 
-              focus:ring-blue-500 focus:outline-none text-black placeholder-gray-400"
-            />
-          </div>
-
+        <div className="mt-4 text-center text-sm text-gray-600">
+          Don&apos;t have an account?{' '}
           <button
-            type="submit"
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg 
-            rounded-xl shadow-md transition-all"
+            type="button"
+            onClick={() => router.push('/signup')}
+            className="text-blue-600 hover:text-blue-800 underline"
           >
-            Sign In
+            Sign Up
           </button>
-        </form>
-
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Don't have an account?{" "}
-          <span className="text-blue-600 font-semibold cursor-pointer hover:underline">
-            Register
-          </span>
-        </p>
-      </div>
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default LoginPage;

@@ -1,10 +1,25 @@
-export default function Button({ label, className, ...props }) {
+import React from "react";
+
+const Button = ({ children, onClick, type = "button", disabled }) => {
   return (
     <button
-      {...props}
-      className={`px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition ${className}`}
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+      className={`
+        w-full py-3 mt-2
+        bg-blue-600 text-white
+        font-semibold 
+        rounded-lg 
+        shadow-md
+        hover:bg-blue-700 
+        transition-all
+        disabled:opacity-50 disabled:cursor-not-allowed
+      `}
     >
-      {label}
+      {children}
     </button>
   );
-}
+};
+
+export default Button;

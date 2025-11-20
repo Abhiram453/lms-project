@@ -1,4 +1,34 @@
+"use client";
+
+import React, { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 export default function DashboardPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+
+    // If user is not logged in OR not a student → redirect
+    if (!session || session.user?.role !== "student") {
+      router.replace("/signin");
+    }
+  }, [session, status, router]);
+
+  console.log("STUDENT SESSION:", session?.user); // required screenshot
+
+  // Show loader while checking session
+  if (status === "loading" || !session || session.user?.role !== "student") {
+    return (
+      <div className="text-center text-black mt-10">
+        Loading...
+      </div>
+    );
+  }
+
+  // Your original dashboard content (untouched)
   return (
     <div>
       <h1 className="text-3xl font-semibold text-gray-800 mb-8">
