@@ -65,12 +65,10 @@ export const authOptions = {
     },
   },
 
-  // 🔥 required for signOut to redirect properly
   pages: {
     signIn: "/signin",
   },
 
-  // 🔥 this is what fixes logout
   redirect: true,
 };
 

@@ -1,13 +1,15 @@
 "use client";
-import React, { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
-import InputField from '../global/input-field';
-import Button from '../global/button';
+
+import React, { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import InputField from "../global/input-field";
+import Button from "../global/button";
+import { motion } from "framer-motion";
 
 const LoginPage = () => {
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -17,46 +19,46 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!form.email || !form.password) {
-      toast.error('Email and password are required.');
+      toast.error("Email and password are required.");
       return;
     }
 
     setIsLoading(true);
-    const loadingToast = toast.loading('Signing you in...', { duration: Infinity });
+    const loadingToast = toast.loading("Signing you in...", {
+      duration: Infinity,
+    });
 
     try {
-      const res = await signIn("credentials", { 
-        redirect: false, 
+      const res = await signIn("credentials", {
+        redirect: false,
         email: form.email,
-        password: form.password
+        password: form.password,
       });
 
       if (res?.error) {
         toast.dismiss(loadingToast);
-        toast.error("Invalid credentials. Please check your email and password.");
+        toast.error("Invalid credentials.");
         setIsLoading(false);
         return;
       }
 
       if (res?.ok) {
         toast.dismiss(loadingToast);
-        toast.success('Login successful! Redirecting...');
+        toast.success("Login successful!");
 
         setTimeout(async () => {
-          const sessionRes = await fetch('/api/auth/session');
+          const sessionRes = await fetch("/api/auth/session");
           const session = await sessionRes.json();
           const role = session?.user?.role;
 
-          if (role === 'admin') router.push('/admin_dashboard');
-          else router.push('/student_dashboard');
+          if (role === "admin") router.push("/admin_dashboard");
+          else router.push("/student_dashboard");
         }, 100);
       }
-
     } catch (err) {
       toast.dismiss(loadingToast);
-      toast.error("An unexpected error occurred. Please try again.");
+      toast.error("Unexpected error.");
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -64,32 +66,78 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-rose-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 px-4">
-      <div className="w-full max-w-md">
-        <div className="mb-6 text-center">
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm shadow-sm">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold">
-              L
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">LMS</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-300">Learn. Manage. Grow.</p>
-            </div>
-          </div>
-        </div>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-100 via-white to-purple-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 px-4">
 
-        <form onSubmit={handleSubmit} className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-slate-100 dark:border-slate-800 rounded-2xl p-8 shadow-xl">
-          <div className="mb-6 text-center">
-            <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">Sign in to your account</h2>
-            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Enter your credentials to continue</p>
+      {/* 🔵 Animated Background Blobs */}
+      <motion.div
+        className="absolute top-10 left-10 w-72 h-72 bg-indigo-500/30 dark:bg-indigo-700/20 rounded-full blur-3xl"
+        animate={{ x: [0, 30, -20, 0], y: [0, -20, 10, 0] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-10 right-10 w-80 h-80 bg-purple-500/30 dark:bg-purple-800/20 rounded-full blur-3xl"
+        animate={{ x: [0, -25, 20, 0], y: [0, 15, -10, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ type: "spring", duration: 0.8 }}
+        className="w-full max-w-md relative z-10"
+      >
+        {/* Logo Section */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1, type: "spring" }}
+          className="mb-6 text-center"
+        >
+          <motion.div
+            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/60 dark:bg-slate-800/60 backdrop-blur-md shadow-lg"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring" }}
+          >
+            <motion.div
+              className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-md"
+              animate={{ rotate: [0, 5, -5, 0] }}
+              transition={{ duration: 4, repeat: Infinity }}
+            >
+              L
+            </motion.div>
+            <div>
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-white tracking-wide">
+                LMS
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-300">
+                Learn. Manage. Grow.
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Card */}
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/20 dark:border-slate-700 rounded-3xl p-8 shadow-2xl"
+        >
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+              Welcome Back
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+              Sign in to continue
+            </p>
           </div>
 
           <div className="space-y-4">
-            <div className="relative">
+            {/* EMAIL */}
+            <motion.div whileFocusWithin={{ scale: 1.01 }} className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 10-8 0m8 0v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4" />
-                </svg>
+                📧
               </span>
               <div className="pl-10">
                 <InputField
@@ -98,19 +146,17 @@ const LoginPage = () => {
                   type="email"
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="you@company.com"
+                  placeholder="you@example.com"
                   disabled={isLoading}
                   required
                 />
               </div>
-            </div>
+            </motion.div>
 
-            <div className="relative">
+            {/* PASSWORD */}
+            <motion.div whileFocusWithin={{ scale: 1.01 }} className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 11c1.657 0 3-1.567 3-3.5S13.657 4 12 4s-3 1.567-3 3.5S10.343 11 12 11z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5.5 18.5A6.5 6.5 0 0112 14a6.5 6.5 0 016.5 4.5" />
-                </svg>
+                🔐
               </span>
               <div className="pl-10">
                 <InputField
@@ -124,44 +170,43 @@ const LoginPage = () => {
                   required
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
 
           <div className="flex items-center justify-between mt-4">
-            <div className="text-sm">
-              <button
-                type="button"
-                onClick={() => router.push('/forgot-password')}
-                className="text-indigo-600 dark:text-indigo-300 hover:underline"
-              >
-                Forgot password?
-              </button>
-            </div>
-            <div className="text-sm text-slate-500">Secure sign in</div>
-          </div>
-
-          <div className="mt-6">
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? 'Signing in...' : 'Sign In'}
-            </Button>
-          </div>
-
-          <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
-            Don't have an account?{' '}
             <button
               type="button"
-              onClick={() => router.push('/signup')}
-              className="text-indigo-600 dark:text-indigo-300 font-medium hover:underline"
+              onClick={() => router.push("/forgot-password")}
+              className="text-indigo-600 dark:text-indigo-300 text-sm hover:underline"
+            >
+              Forgot password?
+            </button>
+            <div className="text-xs text-slate-500">Secure sign-in</div>
+          </div>
+
+          <motion.div className="mt-6" whileTap={{ scale: 0.98 }}>
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? "Signing in..." : "Sign In"}
+            </Button>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400"
+          >
+            Don't have an account?{" "}
+            <button
+              type="button"
+              onClick={() => router.push("/signup")}
+              className="text-indigo-600 dark:text-indigo-300 hover:underline font-medium"
             >
               Create one
             </button>
-          </div>
-        </form>
-
-        <div className="mt-6 text-center text-xs text-slate-400">
-          By signing in you agree to the terms of service.
-        </div>
-      </div>
+          </motion.div>
+        </motion.form>
+      </motion.div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
-  // Allow NextAuth API routes (signout, signin, callback)
+  // Allow NextAuth API routes
   if (pathname.startsWith("/api/auth")) {
     return NextResponse.next();
   }
@@ -50,6 +50,7 @@ export async function middleware(req) {
 
 export const config = {
   matcher: [
-    "/((?!api/auth|_next|static|favicon.ico|signin|signup).*)",
+    "/admin_dashboard/:path*",
+    "/student_dashboard/:path*",
   ],
 };

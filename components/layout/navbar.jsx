@@ -1,24 +1,50 @@
 "use client";
 
 import { useLogout } from "@/utils/useLogout";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const logout = useLogout();
 
   return (
-    <nav className="w-full bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 text-white px-6 py-3 flex items-center justify-between shadow-lg backdrop-blur-sm rounded-b-lg">
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-semibold shadow-sm">
+    <motion.nav
+      initial={{ opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      className="w-full bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 text-white px-6 py-3 flex items-center justify-between shadow-lg backdrop-blur-sm rounded-b-lg"
+    >
+      {/* Left Section */}
+      <motion.div
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+        className="flex items-center gap-4"
+      >
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 250 }}
+          className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-semibold shadow-sm"
+        >
           L
-        </div>
+        </motion.div>
+
         <div className="hidden sm:block">
           <h1 className="text-lg font-semibold tracking-wide">LMS Platform</h1>
           <div className="text-xs text-indigo-100/80">Learn. Manage. Grow.</div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="flex items-center gap-4">
-        <button
+      {/* Right Section */}
+      <motion.div
+        className="flex items-center gap-4"
+        initial={{ opacity: 0, x: 10 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.25, duration: 0.45 }}
+      >
+        {/* Profile Button */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
           className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-md text-sm bg-white/10 hover:bg-white/20 transition"
           aria-label="Profile"
         >
@@ -42,10 +68,13 @@ export default function Navbar() {
             />
           </svg>
           <span className="hidden sm:inline">Profile</span>
-        </button>
+        </motion.button>
 
-        <button
+        {/* Logout Button */}
+        <motion.button
           onClick={logout}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
           className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-sm bg-white/10 hover:bg-white/25 transition"
           aria-label="Logout"
         >
@@ -58,20 +87,12 @@ export default function Navbar() {
             strokeWidth="1.5"
             aria-hidden
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17 16l4-4m0 0l-4-4m4 4H7"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M7 8v8"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M7 8v8" />
           </svg>
           <span className="hidden sm:inline">Logout</span>
-        </button>
-      </div>
-    </nav>
+        </motion.button>
+      </motion.div>
+    </motion.nav>
   );
 }
